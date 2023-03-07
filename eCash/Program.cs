@@ -37,30 +37,40 @@
                 Console.WriteLine("Welcome to eCash!");
                 
                 Console.WriteLine("Please select an option:");
-                Console.WriteLine("s) Sign up");
-                Console.WriteLine("p) Print all accounts");
-                Console.WriteLine("d) Deposit");
+                Console.WriteLine("s) 儲值");
+                Console.WriteLine("p) 消費");
+                Console.WriteLine("d) 查詢餘額");
                 Console.WriteLine("q) Quit");
                 char c = Utility.ReadMenuSelection();
                 int amount = 0;
-                
+                bool res = true;
                 switch (c)
                 {
                     case 's':
                         amount = Utility.ReadNum();
                         account.Deposite(amount);
+                        Console.WriteLine($"您存了{amount}元，帳戶目前額逾: {account.Balance}元");
                         break;
                     
                     case 'p':
                         amount = Utility.ReadNum();
-                        account.Withdraw(amount);
+                        res = account.Withdraw(amount);
+                        if (res)
+                        {
+                            Console.WriteLine($"您消費{amount}元，帳戶目前額逾: {account.Balance}元");   
+                        }
+                        else
+                        {
+                            Console.WriteLine($"您的帳戶餘額不足，請重新輸入: ");
+                        }
                         break;
                     case 'd':
                         var accountBalance = account.Balance;
-                        Console.WriteLine($"Your balance is {accountBalance}");
+                        Console.WriteLine($"您的帳戶目前餘額{accountBalance}");
                         break;
                     case 'q':
-                        var res = Utility.ReadConfirmSelection();
+                        Console.WriteLine($"請您再次確定是否離開(Y/N): ");
+                        res = Utility.ReadConfirmSelection();
                         isContinued = !res;
                         break;
                 }
@@ -268,7 +278,7 @@
                     }
                 }
 
-                Console.WriteLine("Invalid input, please try again.\t choose 'y' or 'n'.");
+                Console.WriteLine("請輸入 'y' 或者是 'n'.");
             }
         }
 
